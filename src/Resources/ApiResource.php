@@ -8,9 +8,7 @@ use CoinbaseCommerce\Util;
 class ApiResource extends \ArrayObject
 {
     protected static $client;
-
     protected $attributes = [];
-
     protected $initialData = [];
 
     public function __construct($data = [])
@@ -151,22 +149,34 @@ class ApiResource extends \ArrayObject
         return count($this->attributes);
     }
 
+    /**
+     * Fixed asort method to match ArrayObject::asort() signature
+     */
     public function asort(int $flags = SORT_REGULAR): bool
-{
+    {
         // Make sure the attributes are an array before sorting
         if (is_array($this->attributes)) {
             asort($this->attributes, $flags);
             return true; // Returning true to match ArrayObject::asort() return type
         }
-    
-        // If $this->attributes is not an array, return false (or handle the error)
+
+        // If $this->attributes is not an array, return false
         return false;
     }
 
-
-    public function ksort()
+    /**
+     * Fixed ksort method to match ArrayObject::ksort() signature
+     */
+    public function ksort(int $flags = SORT_REGULAR): bool
     {
-        ksort($this->attributes);
+        // Make sure the attributes are an array before sorting
+        if (is_array($this->attributes)) {
+            ksort($this->attributes, $flags);
+            return true; // Returning true to match ArrayObject::ksort() return type
+        }
+
+        // If $this->attributes is not an array, return false
+        return false;
     }
 
     public function offsetUnset($key)
