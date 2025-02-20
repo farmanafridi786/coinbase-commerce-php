@@ -151,10 +151,18 @@ class ApiResource extends \ArrayObject
         return count($this->attributes);
     }
 
-    public function asort()
-    {
-        asort($this->attributes);
+    public function asort(int $flags = SORT_REGULAR): bool
+{
+        // Make sure the attributes are an array before sorting
+        if (is_array($this->attributes)) {
+            asort($this->attributes, $flags);
+            return true; // Returning true to match ArrayObject::asort() return type
+        }
+    
+        // If $this->attributes is not an array, return false (or handle the error)
+        return false;
     }
+
 
     public function ksort()
     {
